@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#d7c0a7">
+<title>Marvin & Ornella — Notre Mariage</title>
+<style>
+:root{--bg:#faf6f0;--card:#fffdfa;--beige:#eadfd2;--beige2:#d8c1a7;--brown:#5e4a3c;--muted:#917c6a;--gold:#b38d60;--line:#eadfd4;--shadow:0 9px 25px rgba(72,52,37,.09)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:#392f29;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+header{position:relative;overflow:hidden;padding:30px 18px 25px;background:linear-gradient(135deg,#f3e9de,#d9c1a6)}
+header:after{content:"❀  ✿  ❁";position:absolute;right:12px;top:15px;font-size:36px;color:rgba(255,255,255,.68);transform:rotate(-9deg)}
+.kicker{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);font-weight:700}
+h1{font:500 36px Georgia,serif;margin:6px 0}.date{font-weight:650;color:var(--brown)}
+.count{display:flex;gap:7px;margin-top:17px;flex-wrap:wrap}.count div{min-width:62px;text-align:center;padding:9px;background:rgba(255,255,255,.7);border-radius:14px;box-shadow:var(--shadow)}.count b{display:block;font-size:20px}.count span{font-size:9px;text-transform:uppercase;color:var(--muted)}
+main{max-width:1050px;margin:auto;padding:15px 13px 90px}.title{display:flex;align-items:end;justify-content:space-between;margin:8px 2px 10px}.title h2{font:500 22px Georgia,serif;margin:0}.title small{color:var(--muted)}
+.stats,.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}.card,.tile{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px;box-shadow:var(--shadow)}
+.stat-icon,.tile .ico{font-size:24px}.stat b{display:block;font-size:21px;margin-top:6px}.stat small,.tile small{color:var(--muted);font-size:11px}.progress{height:7px;background:#eee5dc;border-radius:20px;margin-top:9px;overflow:hidden}.bar{height:100%;background:linear-gradient(90deg,var(--beige2),var(--gold))}
+.tile{border:1px solid var(--line);text-align:left;color:#392f29}.tile strong{display:block;margin:7px 0 2px}.section{margin-top:19px}
+.bottom{position:fixed;bottom:0;left:0;right:0;display:flex;justify-content:space-around;background:rgba(255,253,250,.94);backdrop-filter:blur(12px);border-top:1px solid var(--line);padding:8px 8px calc(8px + env(safe-area-inset-bottom));z-index:20}.bottom button{border:0;background:none;color:var(--muted);font-size:10px}.bottom span{display:block;font-size:21px}.bottom .active{color:var(--brown);font-weight:700}
+.modal{display:none;position:fixed;inset:0;background:rgba(50,39,31,.38);z-index:40;align-items:flex-end}.modal.open{display:flex}.sheet{width:100%;max-height:84vh;overflow:auto;background:var(--bg);border-radius:24px 24px 0 0;padding:17px 14px calc(22px + env(safe-area-inset-bottom))}.sheet h3{font:500 25px Georgia,serif;margin:4px 0 13px}.close{float:right;border:0;width:34px;height:34px;border-radius:50%;background:var(--beige);color:var(--brown)}
+label{display:block;font-size:11px;color:var(--muted);margin:10px 2px 4px}input,select,textarea{width:100%;padding:11px;border:1px solid #dfd2c4;border-radius:12px;background:white;color:#392f29;font:inherit}.row{display:flex;gap:7px}.row>*{flex:1}.btn{border:0;border-radius:12px;padding:11px 13px;background:var(--brown);color:#fff;font-weight:650;margin-top:9px}.list{display:grid;gap:7px;margin-top:11px}.item{display:flex;justify-content:space-between;align-items:center;gap:8px;background:white;border:1px solid var(--line);padding:10px;border-radius:13px}.item.done{opacity:.55;text-decoration:line-through}.mini{border:0;background:var(--beige);border-radius:9px;padding:7px;color:var(--brown)}
+@media(min-width:760px){header{padding:42px}.stats,.grid{grid-template-columns:repeat(4,1fr)}h1{font-size:48px}}
+</style>
+</head>
+<body>
+<header>
+<div class="kicker">Notre mariage</div>
+<h1>Marvin &amp; Ornella</h1>
+<div class="date">27 mai 2028 · 💍</div>
+<div class="count" id="count"></div>
+</header>
+<main>
+<div class="title"><h2>Tableau de bord</h2><small>Organisation générale</small></div>
+<section class="stats">
+<div class="card stat"><div class="stat-icon">💶</div><b id="spentStat">0 €</b><small>sur 25 000 €</small><div class="progress"><div id="budgetBar" class="bar" style="width:0%"></div></div></div>
+<div class="card stat"><div class="stat-icon">💌</div><b id="guestStat">0 / 100</b><small>invités</small></div>
+<div class="card stat"><div class="stat-icon">✅</div><b id="taskStat">0</b><small>tâches terminées</small></div>
+<div class="card stat"><div class="stat-icon">🤝</div><b id="vendorStat">0</b><small>prestataires</small></div>
+</section>
+
+<section class="section">
+<div class="title"><h2>Organisation</h2><small>Tout au même endroit</small></div>
+<div class="grid">
+<button class="tile" onclick="openM('budget')"><span class="ico">💰</span><strong>Budget</strong><small>Dépenses, acomptes et soldes</small></button>
+<button class="tile" onclick="openM('guests')"><span class="ico">👥</span><strong>Invités</strong><small>Présences et réponses</small></button>
+<button class="tile" onclick="openM('tables')"><span class="ico">🍽️</span><strong>Tables</strong><small>Plan de salle</small></button>
+<button class="tile" onclick="openM('vendors')"><span class="ico">🤝</span><strong>Prestataires</strong><small>Lieu, DJ, photo, traiteur…</small></button>
+<button class="tile" onclick="openM('tasks')"><span class="ico">✅</span><strong>À faire</strong><small>Checklist jusqu'au mariage</small></button>
+<button class="tile" onclick="openM('planning')"><span class="ico">📅</span><strong>Planning</strong><small>Rendez-vous et jour J</small></button>
+<button class="tile" onclick="openM('decor')"><span class="ico">🌸</span><strong>Décoration</strong><small>Fleurs, achats et idées</small></button>
+<button class="tile" onclick="openM('docs')"><span class="ico">📄</span><strong>Documents</strong><small>Contrats, devis et notes</small></button>
+</div>
+</section>
+</main>
+
+<nav class="bottom">
+<button class="active"><span>🏠</span>Accueil</button>
+<button onclick="openM('guests')"><span>💌</span>Invités</button>
+<button onclick="openM('tasks')"><span>✓</span>À faire</button>
+<button onclick="openM('planning')"><span>📅</span>Planning</button>
+</nav>
+
+<div class="modal" id="modal" onclick="if(event.target===this)closeM()">
+<div class="sheet">
+<button class="close" onclick="closeM()">×</button>
+<div id="sheetContent"></div>
+</div></div>
+
+<script>
+const KEY='marvinOrnellaWeddingV1';
+let data=JSON.parse(localStorage.getItem(KEY)||'null')||{budget:[],guests:[],vendors:[],tasks:[],planning:[],decor:[],tables:[],docs:[]};
+const save=()=>{localStorage.setItem(KEY,JSON.stringify(data));renderStats()};
+const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+function countdown(){let d=new Date('2028-05-27T00:00:00'),n=new Date(),ms=Math.max(0,d-n),days=Math.floor(ms/86400000);let months=Math.floor(days/30.44), rem=Math.max(0,days-Math.floor(months*30.44));document.getElementById('count').innerHTML=`<div><b>${months}</b><span>mois</span></div><div><b>${rem}</b><span>jours</span></div><div><b>${days}</b><span>jours total</span></div>`}
+function renderStats(){let spent=data.budget.reduce((a,x)=>a+(+x.amount||0),0);spentStat.textContent=spent.toLocaleString('fr-FR')+' €';budgetBar.style.width=Math.min(100,spent/25000*100)+'%';guestStat.textContent=data.guests.length+' / 100';taskStat.textContent=data.tasks.filter(x=>x.done).length+' / '+data.tasks.length;vendorStat.textContent=data.vendors.length}
+const configs={
+budget:{title:'💰 Budget',fields:[['name','Dépense / prestation'],['amount','Montant (€)','number'],['status','Statut']],list:x=>`${esc(x.name)} — ${Number(x.amount||0).toLocaleString('fr-FR')} € ${x.status?'· '+esc(x.status):''}`},
+guests:{title:'💌 Invités',fields:[['name','Nom et prénom'],['status','Réponse (confirmé / attente / refus)'],['note','Allergie, menu, +1…']],list:x=>`${esc(x.name)}${x.status?' — '+esc(x.status):''}${x.note?' · '+esc(x.note):''}`},
+vendors:{title:'🤝 Prestataires',fields:[['name','Prestataire'],['type','Type (DJ, traiteur, photographe…)'],['phone','Téléphone / contact'],['note','Note']],list:x=>`${esc(x.name)}${x.type?' — '+esc(x.type):''}`},
+tasks:{title:'✅ À faire',fields:[['name','Tâche'],['date','Échéance','date']],list:x=>`${esc(x.name)}${x.date?' — '+new Date(x.date+'T12:00').toLocaleDateString('fr-FR'):''}`},
+planning:{title:'📅 Planning',fields:[['name','Rendez-vous / événement'],['date','Date','date'],['time','Heure','time']],list:x=>`${esc(x.name)}${x.date?' — '+new Date(x.date+'T12:00').toLocaleDateString('fr-FR'):''}${x.time?' à '+esc(x.time):''}`},
+decor:{title:'🌸 Décoration',fields:[['name','Élément / idée'],['qty','Quantité','number'],['note','Couleur / magasin / note']],list:x=>`${esc(x.name)}${x.qty?' × '+esc(x.qty):''}${x.note?' — '+esc(x.note):''}`},
+tables:{title:'🍽️ Plan de table',fields:[['name','Nom de la table'],['people','Personnes / invités']],list:x=>`${esc(x.name)}${x.people?' — '+esc(x.people):''}`},
+docs:{title:'📄 Documents & notes',fields:[['name','Document / sujet'],['note','Note / emplacement / information']],list:x=>`${esc(x.name)}${x.note?' — '+esc(x.note):''}`}
+};
+function openM(type){let c=configs[type];let inputs=c.fields.map(f=>`<label>${f[1]}</label><input id="f_${f[0]}" type="${f[2]||'text'}" placeholder="${f[1]}">`).join('');sheetContent.innerHTML=`<h3>${c.title}</h3>${inputs}<button class="btn" onclick="addItem('${type}')">Ajouter</button><div class="list" id="items"></div>`;modal.classList.add('open');renderList(type)}
+function closeM(){modal.classList.remove('open')}
+function addItem(type){let c=configs[type],o={id:Date.now()};c.fields.forEach(f=>o[f[0]]=document.getElementById('f_'+f[0]).value.trim());if(!o.name)return; if(type==='tasks')o.done=false;data[type].push(o);save();openM(type)}
+function renderList(type){let c=configs[type],el=document.getElementById('items');el.innerHTML=data[type].map(x=>`<div class="item ${x.done?'done':''}"><span>${c.list(x)}</span><span>${type==='tasks'?`<button class="mini" onclick="toggleTask(${x.id})">✓</button>`:''}<button class="mini" onclick="delItem('${type}',${x.id})">×</button></span></div>`).join('')||'<div class="card"><small>Rien enregistré pour le moment.</small></div>'}
+function delItem(type,id){data[type]=data[type].filter(x=>x.id!==id);save();openM(type)}
+function toggleTask(id){let x=data.tasks.find(x=>x.id===id);if(x)x.done=!x.done;save();openM('tasks')}
+countdown();renderStats();setInterval(countdown,60000);
+</script>
+</body></html>
